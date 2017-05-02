@@ -1,8 +1,11 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-tmpbg=`mktemp /tmp/lockscreen.XXXXXXXXXX.png` || exit 1
+IMAGE="$HOME/.config/i3/lock-hacker.png"
+#IMAGE="/tmp/screen_locked.png"
 
-scrot "$tmpbg"
-convert "$tmpbg" -scale 10% -scale 1000% "$tmpbg"
-i3lock -u -i "$tmpbg"
-rm "$tmpbg"
+#scrot $IMAGE
+
+#if [[ $# -eq 1 ]] && [[ "$1" == "blur"  ]]; then
+#	convert $IMAGE -blur "0x5" $IMAGE
+#fi
+i3lock -f -p win -i $IMAGE

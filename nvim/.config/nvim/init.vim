@@ -11,7 +11,8 @@ end
 call plug#begin(plugpath)
 
  " Snippets
-Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+ " Plug 'SirVer/ultisnips' | 
+Plug 'honza/vim-snippets'
 
 function! DoRemote(arg)
   UpdateRemotePlugins

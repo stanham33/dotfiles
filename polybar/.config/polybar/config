@@ -28,19 +28,18 @@ margin-bottom = 5
 
 
 [bar/primary]
-monitor = ${env:MONITOR:DP-2-1}
-monitor-fallback = ${env:MONITOR:eDP-1}
-dpi = ${xrdb:Xft.dpi:136}
-bottom = true
+monitor = ${env:MONITOR:eDP-1}
+dpi = ${xrdb:Xft.dpi:90}
+bottom = false
 width = 100%
-height = 30
+height = 20
 offset-x = 0
 offset-y = 0
 
 foreground = ${colors.foreground}
 background = ${colors.background}
 
-underline-size = 3
+underline-size = 2
 
 padding-left = 0
 padding-right = 0
@@ -54,27 +53,27 @@ font-2 = Unifont:fontformat=truetype:size=10;3
 tray-position = right
 tray-padding = 0
 tray-transparent = false
-tray-maxsize=24
+tray-maxsize = 32
 
 modules-left = i3 xwindow
-modules-center = 
-modules-right = music volume filesystem memory cpu wlan eth ethlocal battery1 battery2 xkeyboard date powermenu
+modules-center = longdate taskwarrior
+modules-right = music volume filesystem memory cpu wlan eth battery1 battery2
 
 
 [bar/secondary]
 inherit=bar/primary
-monitor = ${env:MONITOR:eDP-1}
+monitor = ${env:MONITOR:DP-1}
 modules-left = i3 xwindow
-modules-center = 
-modules-right = weather mail temperature longwlan longeth longethlocal longdate powermenu
+modules-center = longdate taskwarrior
+modules-right = temperature longwlan longeth
 
 
 [bar/presentation]
 inherit=bar/primary
-monitor = ${env:MONITOR:HDMI-2}
+monitor = ${env:MONITOR:DP-1}
 modules-left = i3 xwindow
-modules-center = motd
-modules-right = weather volume wlan longdate
+modules-center =
+modules-right = volume wlan longdate
 
 
 [module/xwindow]
@@ -127,17 +126,16 @@ label-visible-padding = 1
 label-visible-background = ${colors.dcyan}
 label-visible-underline = ${colors.dcyan}
 
-ws-icon-0 = 1;
-ws-icon-1 = 2;²
-ws-icon-2 = 3;
-ws-icon-3 = 4;²
-ws-icon-4 = 5;
-ws-icon-5 = 6;
-ws-icon-6 = 6;6
-ws-icon-7 = 7;7
-ws-icon-8 = 8;8
-ws-icon-9 = 9;
-ws-icon-10 = 10;
+ws-icon-0 = 1;1
+ws-icon-1 = 2;2
+ws-icon-2 = 3;3
+ws-icon-3 = 4;4
+ws-icon-4 = 5;5
+ws-icon-5 = 6;6
+ws-icon-6 = 7;7
+ws-icon-7 = 8;8
+ws-icon-8 = 9;9
+ws-icon-9 = 10;10
 
 
 [module/cpu]
@@ -237,7 +235,7 @@ ramp-signal-7 = █
 
 [module/wlan]
 inherit = module/network
-interface = wlp4s0
+interface = wlan0
 
 label-connected =  %essid%
 label-disconnected = 
@@ -245,7 +243,7 @@ label-disconnected = 
 
 [module/longwlan]
 inherit = module/network
-interface = wlp4s0
+interface = wlan0
 
 label-connected =  %essid%  %local_ip%  %downspeed:8%  %upspeed:8%
 label-disconnected = 
@@ -261,7 +259,7 @@ label-disconnected = 
 
 [module/ethlocal]
 inherit = module/network
-interface = enp0s31f6
+interface = eth0
 
 label-connected =  %local_ip%
 label-disconnected = 
@@ -277,7 +275,7 @@ label-disconnected = 
 
 [module/longethlocal]
 inherit = module/network
-interface = enp0s31f6
+interface = eth0
 
 label-connected =  %local_ip%  %downspeed:8%  %upspeed:8%
 label-disconnected = 
@@ -421,12 +419,14 @@ format-background = ${colors.dgreen}
 format-underline = ${colors.green}
 
 
-[module/motd]
+[module/taskwarrior]
 type = custom/script
-exec = $HOME/.config/polybar/motd.sh
-interval = 60
-label = %output%
+interval = 2
+
+exec = $HOME/.config/polybar/taskwarrior/taskwarrior_time.py
+label =  %output%
 format-padding = 1
-format-background = ${colors.dcyan}
-format-underline = ${colors.cyan}
-; vim:ft=dosini
+format-background = ${colors.dgreen}
+format-underline = ${colors.green}
+
+click-left = $HOME/.config/polybar/taskwarrior/rofiwarrior.py
