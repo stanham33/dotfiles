@@ -32,6 +32,7 @@ bindsym $mod+q kill
 # start rofi
 bindsym $mod+space exec zsh -c "rofi -show run"
 bindsym $mod+Tab exec zsh -c "rofi -show window"
+bindsym Mod1+Tab workspace back_and_forth
 
 # change focus
 bindsym $mod+t focus left
@@ -80,7 +81,7 @@ bindsym $mod+m focus mode_toggle
 # focus the parent container
 bindsym $mod+a focus parent
 # focus the child container
-#bindsym $mod+z focus child
+bindsym $mod+Shift+a focus child
 
 # switch to workspace
 bindsym $mod+quotedbl workspace 1
@@ -107,31 +108,42 @@ bindsym $mod+Shift+slash move container to workspace 9
 bindsym $mod+Shift+asterisk move container to workspace 10
 
 # switch to workspace alternative
-bindsym $mod+KP_1 workspace 1
-bindsym $mod+KP_2 workspace 2
-bindsym $mod+KP_3 workspace 3
-bindsym $mod+KP_4 workspace 4
-bindsym $mod+KP_5 workspace 5
-bindsym $mod+KP_6 workspace 6
-bindsym $mod+KP_7 workspace 7
-bindsym $mod+KP_8 workspace 8
-bindsym $mod+KP_9 workspace 9
-bindsym $mod+KP_0 workspace 10
+bindsym $mod+Mod2+KP_1 workspace 1
+bindsym $mod+Mod2+KP_2 workspace 2
+bindsym $mod+Mod2+KP_3 workspace 3
+bindsym $mod+Mod2+KP_4 workspace 4
+bindsym $mod+Mod2+KP_5 workspace 5
+bindsym $mod+Mod2+KP_6 workspace 6
+bindsym $mod+Mod2+KP_7 workspace 7
+bindsym $mod+Mod2+KP_8 workspace 8
+bindsym $mod+Mod2+KP_9 workspace 9
+bindsym $mod+Mod2+KP_0 workspace 10
 
 # move focused container to workspace alternative
-bindsym $mod+Shift+KP_1 move container to workspace 1
-bindsym $mod+Shift+KP_2 move container to workspace 2
-bindsym $mod+Shift+KP_3 move container to workspace 3
-bindsym $mod+Shift+KP_4 move container to workspace 4
-bindsym $mod+Shift+KP_5 move container to workspace 5
-bindsym $mod+Shift+KP_6 move container to workspace 6
-bindsym $mod+Shift+KP_7 move container to workspace 7
-bindsym $mod+Shift+KP_8 move container to workspace 8
-bindsym $mod+Shift+KP_9 move container to workspace 9
-bindsym $mod+Shift+KP_0 move container to workspace 10
+bindsym $mod+Shift+Mod2+KP_1 move container to workspace 1
+bindsym $mod+Shift+Mod2+KP_2 move container to workspace 2
+bindsym $mod+Shift+Mod2+KP_3 move container to workspace 3
+bindsym $mod+Shift+Mod2+KP_4 move container to workspace 4
+bindsym $mod+Shift+Mod2+KP_5 move container to workspace 5
+bindsym $mod+Shift+Mod2+KP_6 move container to workspace 6
+bindsym $mod+Shift+Mod2+KP_7 move container to workspace 7
+bindsym $mod+Shift+Mod2+KP_8 move container to workspace 8
+bindsym $mod+Shift+Mod2+KP_9 move container to workspace 9
+bindsym $mod+Shift+Mod2+KP_0 move container to workspace 10
 
-#bindsym $mod+Shift+Control+l move workspace to output right
-#bindsym $mod+Shift+Control+h move workspace to output left
+bindsym Ctrl+Shift+Left move workspace to output left
+bindsym Ctrl+Shift+Right move workspace to output right
+bindsym Ctrl+Shift+Up move workspace to output up
+bindsym Ctrl+Shift+Down move workspace to output down
+bindsym Ctrl+Mod1+Left focus output left
+bindsym Ctrl+Mod1+Right focus output right
+bindsym Ctrl+Mod1+Up focus output up
+bindsym Ctrl+Mod1+Down focus output down
+bindsym Ctrl+Left workspace prev
+bindsym Ctrl+Right workspace next
+
+bindsym $mod+w exec "i3-input -F 'workspace %s' -P 'go to workspace: '"
+bindsym $mod+Shift+w exec "i3-input -F 'move container to workspace %s' -P 'move to workspace: '"
 
 # reload the configuration file
 bindsym $mod+Shift+x reload
@@ -167,7 +179,13 @@ mode "resize" {
 bindsym $mod+o mode "resize"
 
 # Polybar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+#exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+bar {
+  status_command i3blocks
+  position top
+  tray_output primary
+}
+
 
 for_window [class="^.*"] border pixel 3
 gaps inner 10
@@ -196,12 +214,12 @@ client.background       $black
 
 ###Shortcuts (use xev to get keycodes)###
 
-bindsym XF86HomePage exec --no-startup-id ~/.config/i3/lock.sh
-bindsym XF86Calculator exec --no-startup-id gnome-calculator
-bindsym XF86Explorer exec --no-startup-id ~/.config/i3/lock.sh && systemctl suspend
+bindsym $mod+l exec --no-startup-id ~/.config/i3/lock.sh
+#bindsym XF86Calculator exec --no-startup-id gnome-calculator
+bindsym $mod+Ctrl+s exec --no-startup-id ~/.config/i3/lock.sh && systemctl suspend
+bindsym $mod+Ctrl+h exec --no-startup-id ~/.config/i3/lock.sh && systemctl hibernate
 #bindsym $mod+space exec --no-startup-id synapse
 bindsym $mod+e exec --no-startup-id nautilus
-bindsym XF86Display exec --no-startup-id ~/.config/i3/monitor-hotplug.sh
 bindsym $mod+c exec --no-startup-id gsimplecal
 bindsym Print exec import -window root ~/Pictures/Screenshots/Screenshot-$(date +%F_%H:%M:%S).png
 bindsym --release Shift+Print exec import ~/Pictures/Screenshots/Screenshot-$(date +%F_%H:%M:%S).png
@@ -218,16 +236,16 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightne
 
 ###Exec###
 
-exec --no-startup-id feh --bg-scale ~/Pictures/2048x1536-fit_terre-vue-lune-12-octobre-2015.jpg
+#exec --no-startup-id feh --bg-scale ~/Pictures/2048x1536-fit_terre-vue-lune-12-octobre-2015.jpg
 exec --no-startup-id nm-applet
-exec --no-startup-id synology-cloud-station-drive
+#exec --no-startup-id synology-cloud-station-drive
 exec --no-startup-id xcompmgr
-exec --no-startup-id gnome-settings-daemon
+exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
 
 #for_window [class="[gG]oogle-chrome"] move to workspace 6, layout tabbed, focus
-#for_window [class="[nN]autilus"] move to workspace 7, layout tabbed, focus
+for_window [class="[nN]autilus"] move to workspace 7, layout tabbed, focus
 #for_window [class="[hH]exchat|[eE]volution"] move to workspace 3, layout tabbed, focus
-#for_window [class="[vV]irtualbox"] move to workspace 10, layout tabbed, focus
+for_window [class="[vV]irtualbox"] move to workspace 10, layout tabbed, focus
 
 workspace 1 output eDP-1
 workspace 2 output eDP-1
@@ -242,16 +260,15 @@ workspace 10 output DP-1
 
 workspace_auto_back_and_forth yes
 
-set $MENU "Chrome Hexchat Keepassx Gedit keepNote Burp"
+set $MENU "Chrome Keepassx Gedit keepNote Burp"
 bindsym $mod+d mode $MENU
 
 mode $MENU {
   bindsym c exec google-chrome, mode "default"
-  bindsym h exec hexchat, mode "default"
   bindsym k exec keepassx, mode "default"
   bindsym g exec gedit, mode "default"
   bindsym n exec keepnote, mode "default"
-  bindsym b exec java -jar /home/stan/Misc/securite/Tools/burpsuite_pro_v1.6.36.jar, mode "default"
+  bindsym b exec BurpSuitePro, mode "default"
 
   # back to normal: Enter or Escape
   bindsym Return mode "default"
@@ -271,13 +288,14 @@ mode $MENU {
 #}
 #
 ## New mode for switching monitor modes
-#set $monitorMode "monitor s=single, d=dock p=present"
-#bindsym $mod+Shift+m mode $monitorMode
-#mode $monitorMode {
-#  bindsym s exec "~/.config/i3/screenlayout/single"
-#  bindsym d exec "~/.config/i3/screenlayout/dock"
-#  bindsym p exec "~/.config/i3/screenlayout/presentation"
-#  # back to normal: Enter or Escape
-#  bindsym Return mode "default"
-#  bindsym Escape mode "default"
-#}
+set $monitorMode "monitor s=single, w=work, h=home"
+bindsym $mod+Shift+m mode $monitorMode
+mode $monitorMode {
+  bindsym s exec "~/.config/i3/screenlayout/single", mode "default"
+  bindsym w exec "~/.config/i3/screenlayout/gosecure", mode "default"
+  bindsym h exec "~/.config/i3/screenlayout/home", mode "default"
+
+  #back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+}

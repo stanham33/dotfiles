@@ -8,4 +8,4 @@ IMAGE="$HOME/.config/i3/lock-hacker.png"
 #if [[ $# -eq 1 ]] && [[ "$1" == "blur"  ]]; then
 #	convert $IMAGE -blur "0x5" $IMAGE
 #fi
-i3lock -f -p win -i $IMAGE
+i3lock -f -e -p win -i $IMAGE -t
