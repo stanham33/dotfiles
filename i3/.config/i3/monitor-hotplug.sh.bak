@@ -1,12 +1,9 @@
 #!/bin/bash
 
-exec >>/tmp/hotplug.log 2>&1
+exec >>/tmp/test.log 2>&1
 
-export DISPLAY=":1"
-export XAUTHORITY=$(ps -C Xorg -f --no-header | grep stan | sed -n 's/.*-auth //; s/ -[^ ].*//; p')
-
-CONNECTED=`/usr/bin/xrandr --query | grep connected |grep -v disconnected | awk '{print $1}'`
-DISCONNECTED=`/usr/bin/xrandr --query | grep disconnected | awk '{print $1}'`
+CONNECTED=`xrandr --query | grep connected |grep -v disconnected | awk '{print $1}'`
+DISCONNECTED=`xrandr --query | grep disconnected | awk '{print $1}'`
 
 CONNECTED_LENGTH=`wc -w <<< $CONNECTED`
 
@@ -48,4 +45,6 @@ case $CONNECTED_LENGTH in
         ;;
 esac
 
-echo $query >> /tmp/hotplug
+/usr/bin/xrandr --query >> /tmp/hotplug
+echo $query >> /tmp/toto
+#i3-msg restart

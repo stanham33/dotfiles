@@ -14,5 +14,5 @@ touch "$HOME/.local_paths"
 stow -t $HOME zsh
 
 stow -t $HOME i3
-#stow ranger
+stow -t $HOME rofi
 stow -t $HOME dunst

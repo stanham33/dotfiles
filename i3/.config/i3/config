@@ -25,6 +25,8 @@ floating_modifier $mod
 
 # start a terminal
 bindsym $mod+Return exec i3-sensible-terminal
+# create record scripts for pentest
+bindsym $mod+Shift+Return exec i3-sensible-terminal -e script -f ~/Pentests/Misc/Records/$(cat ~/Pentests/Misc/Records/.pentest)_$(date +"%Y-%m-%d_%H-%M").script 
 
 # kill focused window
 bindsym $mod+q kill
@@ -32,13 +34,14 @@ bindsym $mod+q kill
 # start rofi
 bindsym $mod+space exec zsh -c "rofi -show run"
 bindsym $mod+Tab exec zsh -c "rofi -show window"
+bindsym Ctrl+$mod+space exec zsh -c "~/.config/i3/bw-rofi.sh"
 bindsym Mod1+Tab workspace back_and_forth
 
 # change focus
 bindsym $mod+t focus left
 bindsym $mod+s focus down
-bindsym $mod+r focus up
-bindsym $mod+n focus right
+bindsym $mod+d focus up
+bindsym $mod+r focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
@@ -49,8 +52,8 @@ bindsym $mod+Right focus right
 # move focused window
 bindsym $mod+Shift+t move left
 bindsym $mod+Shift+s move down
-bindsym $mod+Shift+r move up
-bindsym $mod+Shift+n move right
+bindsym $mod+Shift+d move up
+bindsym $mod+Shift+r move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -139,8 +142,6 @@ bindsym Ctrl+Mod1+Left focus output left
 bindsym Ctrl+Mod1+Right focus output right
 bindsym Ctrl+Mod1+Up focus output up
 bindsym Ctrl+Mod1+Down focus output down
-bindsym Ctrl+Left workspace prev
-bindsym Ctrl+Right workspace next
 
 bindsym $mod+w exec "i3-input -F 'workspace %s' -P 'go to workspace: '"
 bindsym $mod+Shift+w exec "i3-input -F 'move container to workspace %s' -P 'move to workspace: '"
@@ -197,11 +198,18 @@ for_window [instance="eog"] floating enable
 for_window [instance="synapse"] border none
 
 # colorclass            border background    text        indicator
-client.focused          $black $cyan        $dark_cyan $pink 
-client.unfocused        $black $dark_cyan $white $pink
-client.focused_inactive $black $dark_cyan $dark_cyan $pink
-client.urgent           $black $pink         $dark_cyan $pink
+client.focused          $black $cyan         $dark_cyan  $pink 
+client.unfocused        $black $dark_cyan    $white      $pink
+client.focused_inactive $black $cyan         $white      $pink
+client.urgent           $black $pink         $dark_cyan  $pink
 client.background       $black
+
+#client.focused          #4C7899 #285577 #FFFFFF #2E9EF4   #285577
+#client.focused_inactive #333333 #5F676A #FFFFFF #484E50   #5F676A
+#client.unfocused        #333333 #222222 #888888 #292D2E   #222222
+#client.urgent           #2F343A #900000 #FFFFFF #900000   #900000
+#client.placeholder      #000000 #0C0C0C #FFFFFF #000000   #0C0C0C
+#client.background       #FFFFFF
 
 # Wallpaper
 #exec_always --no-startup-id "sh -c 'sleep 1; feh --bg-fill ~/Pictures/bg.jpg'"
@@ -210,20 +218,24 @@ client.background       $black
 #bindsym $mod+Tab exec "~/.config/i3/lock.sh"
 
 # Autolock after 15 minutes
-#exec --no-startup-id xautolock -time 15 -locker "~/.config/i3/lock.sh"
+#exec --no-startup-id ~/.config/i3/autolock.sh
 
 ###Shortcuts (use xev to get keycodes)###
 
 bindsym $mod+l exec --no-startup-id ~/.config/i3/lock.sh
 #bindsym XF86Calculator exec --no-startup-id gnome-calculator
+#bindsym $mod+Ctrl+s exec --no-startup-id ~/.config/i3/lock.sh && sudo pm-suspend
+#bindsym $mod+Ctrl+h exec --no-startup-id ~/.config/i3/lock.sh && sudo pm-hibernate
 bindsym $mod+Ctrl+s exec --no-startup-id ~/.config/i3/lock.sh && systemctl suspend
 bindsym $mod+Ctrl+h exec --no-startup-id ~/.config/i3/lock.sh && systemctl hibernate
 #bindsym $mod+space exec --no-startup-id synapse
 bindsym $mod+e exec --no-startup-id nautilus
 bindsym $mod+c exec --no-startup-id gsimplecal
 bindsym Print exec import -window root ~/Pictures/Screenshots/Screenshot-$(date +%F_%H:%M:%S).png
-bindsym --release Shift+Print exec import ~/Pictures/Screenshots/Screenshot-$(date +%F_%H:%M:%S).png
-bindsym --release Control+Shift+Print exec import png:- | xclip -selection c -t image/png
+bindsym --release $mod+Shift+s exec import ~/Pictures/Screenshots/Screenshot-$(date +%F_%H:%M:%S).png
+#bindsym --release Control+Shift+s exec import png:- | xclip -selection c -t image/png
+bindsym --release Control+Shift+s exec flameshot gui
+bindsym $mod+i exec --no-startup-id pavucontrol    
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
@@ -238,14 +250,19 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 20 # decrease screen brightne
 
 #exec --no-startup-id feh --bg-scale ~/Pictures/2048x1536-fit_terre-vue-lune-12-octobre-2015.jpg
 exec --no-startup-id nm-applet
+exec --no-startup-id synology-drive
+exec --no-startup-id xset -dpms s off
+exec --no-startup-id synology-drive
 #exec --no-startup-id synology-cloud-station-drive
 exec --no-startup-id xcompmgr
 exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
 
 #for_window [class="[gG]oogle-chrome"] move to workspace 6, layout tabbed, focus
-for_window [class="[nN]autilus"] move to workspace 7, layout tabbed, focus
+#for_window [class="[nN]autilus"] move to workspace 7, layout tabbed, focus
 #for_window [class="[hH]exchat|[eE]volution"] move to workspace 3, layout tabbed, focus
 for_window [class="[vV]irtualbox"] move to workspace 10, layout tabbed, focus
+for_window [class="[gG]nome-calculator"] floating enable
+for_window [class="[pP]avucontrol"] floating enable
 
 workspace 1 output eDP-1
 workspace 2 output eDP-1
@@ -261,11 +278,11 @@ workspace 10 output DP-1
 workspace_auto_back_and_forth yes
 
 set $MENU "Chrome Keepassx Gedit keepNote Burp"
-bindsym $mod+d mode $MENU
+bindsym $mod+n mode $MENU
 
 mode $MENU {
   bindsym c exec google-chrome, mode "default"
-  bindsym k exec keepassx, mode "default"
+  bindsym k exec keepassxc, mode "default"
   bindsym g exec gedit, mode "default"
   bindsym n exec keepnote, mode "default"
   bindsym b exec BurpSuitePro, mode "default"
@@ -288,12 +305,13 @@ mode $MENU {
 #}
 #
 ## New mode for switching monitor modes
-set $monitorMode "monitor s=single, w=work, h=home"
+set $monitorMode "monitor a=auto, s=single, w=work, h=home"
 bindsym $mod+Shift+m mode $monitorMode
 mode $monitorMode {
-  bindsym s exec "~/.config/i3/screenlayout/single", mode "default"
+  bindsym a exec "autorandr -c", mode "default"
+  bindsym s exec "autorandr -l single", mode "default"
   bindsym w exec "~/.config/i3/screenlayout/gosecure", mode "default"
-  bindsym h exec "~/.config/i3/screenlayout/home", mode "default"
+  bindsym h exec "autorandr -l home", mode "default"
 
   #back to normal: Enter or Escape
   bindsym Return mode "default"

@@ -38,9 +38,14 @@ markup=pango
 [volume]
 #label=♪
 label=🔊 
-interval=once
+interval=1
 signal=10
 #STEP=5%
+
+[pomodoro]
+label=Pomodoro: 
+command=python3 /home/stan/repositories/i3blocks-contrib/pomodoro/pomodoro.py
+interval=1
 
 # Memory usage
 #

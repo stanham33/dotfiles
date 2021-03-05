@@ -89,3 +89,20 @@ eval $(thefuck --alias)
 alias vim='vim'
 alias vi='vim'
 export EDITOR='vim'
+
+alias grep-ip='grep -oE "\b[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\b"'
+
+alias cleanvar="cat /dev/null > /var/log/syslog & cat /dev/null > /var/log/messages & cat /dev/null > /var/log/user.log"
+
+# Pwndoc docker shortcuts
+alias pwndoc-backend-restart='docker-compose -f ~/repositories/pwndoc/backend/docker-compose.dev.yml restart'
+alias pwndoc-backend-stop='docker-compose -f ~/repositories/pwndoc/backend/docker-compose.dev.yml stop'
+alias pwndoc-backend-start='docker-compose -f ~/repositories/pwndoc/backend/docker-compose.dev.yml start'
+alias pwndoc-backend-logs='docker-compose -f ~/repositories/pwndoc/backend/docker-compose.dev.yml logs -f pwndoc-backend'
+alias pwndoc-frontend-restart='docker-compose -f ~/repositories/pwndoc/frontend/docker-compose.dev.yml restart'
+alias pwndoc-frontend-stop='docker-compose -f ~/repositories/pwndoc/frontend/docker-compose.dev.yml stop'
+alias pwndoc-frontend-start='docker-compose -f ~/repositories/pwndoc/frontend/docker-compose.dev.yml start'
+alias pwndoc-frontend-logs='docker-compose -f ~/repositories/pwndoc/frontend/docker-compose.dev.yml logs -f pwndoc-frontend'
+alias pwndoc-restart='pwndoc-backend-restart; pwndoc-frontend-restart'
+alias pwndoc-stop='pwndoc-backend-stop; pwndoc-frontend-stop'
+alias pwndoc-start='pwndoc-backend-start; pwndoc-frontend-start'
