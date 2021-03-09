@@ -94,7 +94,8 @@ if [ $? -eq 10 ];then
     MODE="username"
 fi
 
+echo $line
 if [ -n "$line" ]; then
-    item_id=$(echo "$line" | cut -d ' ' -f 3 | grep -Po '[0-9a-f-]+')
+    item_id=$(echo "$line" | awk '{print substr($NF, 2, length($NF)-2)}')
     bw --session $SESSION get $MODE $item_id | xclip -sel c
 fi
